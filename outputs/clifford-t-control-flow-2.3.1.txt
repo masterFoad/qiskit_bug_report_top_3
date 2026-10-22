@@ -1,0 +1,5 @@
+$ python clifford-t-control-flow/repro.py
+Python 3.13.14
+qiskit 2.3.1
+COMPILED {'h': 1, 'measure': 1, 'if_else': 1}
+exit=0

@@ -1,0 +1,79 @@
+$ python clifford-t-control-flow/repro.py
+Python 3.13.14
+qiskit 2.4.0
+Traceback (most recent call last):
+  File "clifford-t-control-flow/repro.py", line 32, in <module>
+    output = transpile(
+        qc,  # The single conditional circuit is sufficient to trigger the bug.
+        basis_gates=get_clifford_gate_names() + ["t", "tdg"],  # Select the Clifford+T pipeline.
+        optimization_level=2,  # Keep the optimization level of the original reproduction.
+    )
+  File "<venv>/lib/python3.13/site-packages/qiskit/compiler/transpiler.py", line 298, in transpile
+    out_circuits = pm.run(circuits, callback=callback, num_processes=num_processes)
+  File "<venv>/lib/python3.13/site-packages/qiskit/transpiler/passmanager.py", line 419, in run
+    return super().run(circuits, output_name, callback, num_processes=num_processes)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<venv>/lib/python3.13/site-packages/qiskit/transpiler/passmanager.py", line 456, in wrapper
+    return meth(*meth_args, **meth_kwargs)
+  File "<venv>/lib/python3.13/site-packages/qiskit/transpiler/passmanager.py", line 196, in run
+    return super().run(
+           ~~~~~~~~~~~^
+        in_programs=circuits,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        property_set=property_set,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "<venv>/lib/python3.13/site-packages/qiskit/passmanager/passmanager.py", line 236, in run
+    _run_workflow(
+    ~~~~~~~~~~~~~^
+        program=program,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "<venv>/lib/python3.13/site-packages/qiskit/passmanager/passmanager.py", line 309, in _run_workflow
+    passmanager_ir, final_state = flow_controller.execute(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~^
+        passmanager_ir=passmanager_ir,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        callback=kwargs.get("callback", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "<venv>/lib/python3.13/site-packages/qiskit/passmanager/base_tasks.py", line 215, in execute
+    passmanager_ir, state = next_task.execute(
+                            ~~~~~~~~~~~~~~~~~^
+        passmanager_ir=passmanager_ir,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        state=state,
+        ^^^^^^^^^^^^
+        callback=callback,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "<venv>/lib/python3.13/site-packages/qiskit/transpiler/basepasses.py", line 167, in execute
+    new_dag, state = super().execute(
+                     ~~~~~~~~~~~~~~~^
+        passmanager_ir=passmanager_ir,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        state=state,
+        ^^^^^^^^^^^^
+        callback=callback,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "<venv>/lib/python3.13/site-packages/qiskit/passmanager/base_tasks.py", line 97, in execute
+    ret = self.run(passmanager_ir)
+  File "<venv>/lib/python3.13/site-packages/qiskit/transpiler/passes/basis/basis_translator.py", line 120, in run
+    out = base_run(
+        dag,
+    ...<3 lines>...
+        None if self._target_basis is None else set(self._target_basis),
+    )
+qiskit.transpiler.exceptions.TranspilerError: 'Unable to translate the operations in the circuit: {("h", 1), ("measure", 1), ("if_else", 1), ("x", 1)} to the backend\'s (or manually specified) target basis: {"tdg", "iswap", "h", "s", "sx", "t", "cz", "rz", "id", "x", "cy", "y", "swap", "sdg", "sxdg", "dcx", "ecr", "z", "cx", "measure", "reset", "barrier", "snapshot", "delay", "store"}. This likely means the target basis is not universal or there are additional equivalence rules needed in the EquivalenceLibrary being used. For more details on this error see: https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.transpiler.passes.BasisTranslator#translation-errors'
+exit=1
