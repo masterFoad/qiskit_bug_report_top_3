@@ -1,6 +1,0 @@
-$ python rzz-angle-bounds-in-control-flow/repro.py
-qiskit 2.4.0
-Expected: all RZZ angles in [0, pi/2]
-Top level: [0.4]
-Inside if_else: [-0.4]
-exit=0

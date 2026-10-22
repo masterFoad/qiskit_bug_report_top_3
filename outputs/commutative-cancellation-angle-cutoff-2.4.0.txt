@@ -1,8 +1,0 @@
-$ python commutative-cancellation-angle-cutoff/repro.py
-qiskit 2.4.0
-python 3.13.14 platform darwin
-single_pass {'rz': 1} equiv True distance 6.77626358e-21 NOT_REPRODUCED
-control_single_rz {'rz': 1} equiv True
-preset 2 {'cx': 2, 'rz': 1} equiv True distance 6.77626358e-21 NOT_REPRODUCED
-preset 3 {'cx': 2, 'rz': 1} equiv True distance 6.77626358e-21 NOT_REPRODUCED
-exit=0
