@@ -10,12 +10,6 @@ Clifford+T pipeline; the circuit itself needs no T gates.
 
 ## Run
 
-From the repository root, using the project's Qiskit 2.6.0 environment:
-
-```bash
-venv/bin/python clifford-t-control-flow/repro.py
-```
-
 **Expected:** compilation succeeds and preserves the conditional `X`.
 
 **Actual:** `BasisTranslator` raises `TranspilerError` with
